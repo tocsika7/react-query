@@ -13,15 +13,34 @@ const Planets = () => {
     ["planets", page],
     () => fetchPlanets(page),
     {
-      staleTime: 0,
-      // cacheTime: 10,
+      keepPreviousData: true,
     }
   );
+
+  console.log(data);
 
   return (
     <div>
       <h2>Planets</h2>
-      <button onClick={() => setPage(2)}>Page 2</button>
+      <button
+        onClick={() => {
+          if (data.previous) {
+            setPage((old) => old - 1);
+          }
+        }}
+      >
+        Previous Page
+      </button>
+      <span>{page}</span>
+      <button
+        onClick={() => {
+          if (data.next) {
+            setPage((old) => old + 1);
+          }
+        }}
+      >
+        Next Page
+      </button>
       {status === "loading" && <div>Loading data...</div>}
       {status === "error" && <div>Error fetching data</div>}
       {status === "success" && (
